@@ -1,0 +1,16 @@
+[Unit]
+Description=GROMACS Telegram Monitor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 %h/.local/share/gromacs-telegram/gromacs_bot.py --config %h/.config/gromacs-telegram/config.env --state %h/.local/state/gromacs-telegram/state.json
+WorkingDirectory=%h/.local/share/gromacs-telegram
+Restart=always
+RestartSec=5
+# Keep an mdrun launched by /continue alive if only the monitor service is restarted.
+KillMode=process
+
+[Install]
+WantedBy=default.target
